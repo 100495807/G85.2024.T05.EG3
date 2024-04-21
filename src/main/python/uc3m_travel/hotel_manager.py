@@ -123,31 +123,22 @@ class HotelManager:
             raise HotelManagementException("Invalid room key format")
         return room_key
 
-    def read_data_from_json(self, json_file):
-        """reads the content of a json file with two fields: CreditCard and phoneNumber"""
+    def write_json_file(self, data_list, file_store):
         try:
-            with open(json_file, encoding='utf-8') as file:
-                json_data = json.load(file)
+            with open(file_store, "w", encoding="utf-8", newline="") as file:
+                json.dump(data_list, file, indent=2)
         except FileNotFoundError as error:
-            raise HotelManagementException("Wrong file or file path") from error
+            raise HotelManagementException("Wrong file  or file path") from error
+
+    def load_json_file(self, file_store):
+        try:
+            with open(file_store, "r", encoding="utf-8", newline="") as file:
+                data_list = json.load(file)
+        except FileNotFoundError:
+            data_list = []
         except json.JSONDecodeError as error:
             raise HotelManagementException("JSON Decode Error - Wrong JSON Format") from error
-        try:
-            credit_card = json_data["CreditCard"]
-            phone_number = json_data["phoneNumber"]
-            info = HotelReservation(id_card="12345678Z",
-                                   credit_card_number=credit_card,
-                                   name_surname="John Doe",
-                                   phone_number=phone_number,
-                                   room_type="single",
-                                   num_days=3,
-                                   arrival="20/01/2024")
-        except KeyError as error:
-            raise HotelManagementException("JSON Decode Error - Invalid JSON Key") from error
-        if not self.validatecreditcard(credit_card):
-            raise HotelManagementException("Invalid credit card number")
-        # Close the file
-        return info
+        return data_list
 
     # pylint: disable=too-many-arguments
     def room_reservation(self,
@@ -178,13 +169,7 @@ class HotelManager:
         file_store = JSON_FILES_PATH + "store_reservation.json"
 
         #leo los datos del fichero si existe , y si no existe creo una lista vacia
-        try:
-            with open(file_store, "r", encoding="utf-8", newline="") as file:
-                data_list = json.load(file)
-        except FileNotFoundError:
-            data_list = []
-        except json.JSONDecodeError as error:
-            raise HotelManagementException("JSON Decode Error - Wrong JSON Format") from error
+        data_list = self.load_json_file(file_store)             #se extrae el metodo para leer los archivos
 
         #compruebo que esta reserva no esta en la lista
         for item in data_list:
@@ -196,24 +181,14 @@ class HotelManager:
         data_list.append(my_reservation.__dict__)
 
         #escribo la lista en el fichero
-        try:
-            with open(file_store, "w", encoding="utf-8", newline="") as file:
-                json.dump(data_list, file, indent=2)
-        except FileNotFoundError as error:
-            raise HotelManagementException("Wrong file  or file path") from error
+        self.write_json_file(data_list, file_store)                 #se extrae el metodo para escribir en los archivos
 
         return my_reservation.localizer
 
+
     def guest_arrival(self, file_input: str) -> str:
         """manages the arrival of a guest with a reservation"""
-        try:
-            with open(file_input, "r", encoding="utf-8", newline="") as file:
-                input_list = json.load(file)
-        except FileNotFoundError as error:
-            raise HotelManagementException("Error: file input not found") from error
-        except json.JSONDecodeError as error:
-            raise HotelManagementException("JSON Decode Error - Wrong JSON Format") from error
-
+        input_list = self.load_json_file(file_input)
         # comprobar valores del fichero
         try:
             my_localizer = input_list["Localizer"]
@@ -230,13 +205,7 @@ class HotelManager:
 
         #leo los datos del fichero , si no existe deber dar error porque el almacen de reservaa
         # debe existir para hacer el checkin
-        try:
-            with open(file_store, "r", encoding="utf-8", newline="") as file:
-                store_list = json.load(file)
-        except FileNotFoundError as error:
-            raise HotelManagementException("Error: store reservation not found") from error
-        except json.JSONDecodeError as error:
-            raise HotelManagementException("JSON Decode Error - Wrong JSON Format") from error
+        store_list = self.load_json_file(file_store)
         # compruebo si esa reserva esta en el almacen
         found = False
         for item in store_list:
@@ -284,14 +253,7 @@ class HotelManager:
         file_store = JSON_FILES_PATH + "store_check_in.json"
 
         # leo los datos del fichero si existe , y si no existe creo una lista vacia
-        try:
-            with open(file_store, "r", encoding="utf-8", newline="") as file:
-                room_key_list = json.load(file)
-        except FileNotFoundError as error:
-            room_key_list = []
-        except json.JSONDecodeError as error:
-            raise HotelManagementException("JSON Decode Error - Wrong JSON Format") from error
-
+        room_key_list = self.load_json_file(file_store)
         # comprobar que no he hecho otro ckeckin antes
         for item in room_key_list:
             if my_checkin.room_key == item["_HotelStay__room_key"]:
@@ -300,11 +262,7 @@ class HotelManager:
         #añado los datos de mi reserva a la lista , a lo que hubiera
         room_key_list.append(my_checkin.__dict__)
 
-        try:
-            with open(file_store, "w", encoding="utf-8", newline="") as file:
-                json.dump(room_key_list, file, indent=2)
-        except FileNotFoundError as error:
-            raise HotelManagementException("Wrong file  or file path") from error
+        self.write_json_file(room_key_list, file_store)
 
         return my_checkin.room_key
 
@@ -313,14 +271,7 @@ class HotelManager:
         self.validate_roomkey(room_key)
         #check thawt the roomkey is stored in the checkins file
         file_store = JSON_FILES_PATH + "store_check_in.json"
-        try:
-            with open(file_store, "r", encoding="utf-8", newline="") as file:
-                room_key_list = json.load(file)
-        except FileNotFoundError as error:
-            raise HotelManagementException("Error: store checkin not found") from error
-        except json.JSONDecodeError as error:
-            raise HotelManagementException("JSON Decode Error - Wrong JSON Format") from error
-
+        room_key_list = self.load_json_file(file_store)
         # comprobar que esa room_key es la que me han dado
         found = False
         for item in room_key_list:
@@ -335,14 +286,7 @@ class HotelManager:
             raise HotelManagementException("Error: today is not the departure day")
 
         file_store_checkout = JSON_FILES_PATH + "store_check_out.json"
-        try:
-            with open(file_store_checkout, "r", encoding="utf-8", newline="") as file:
-                room_key_list = json.load(file)
-        except FileNotFoundError as error:
-            room_key_list = []
-        except json.JSONDecodeError as error:
-            raise HotelManagementException("JSON Decode Error - Wrong JSON Format") from error
-
+        room_key_list = self.load_json_file(file_store_checkout)
         for checkout in room_key_list:
             if checkout["room_key"] == room_key:
                 raise HotelManagementException("Guest is already out")
@@ -351,10 +295,6 @@ class HotelManager:
 
         room_key_list.append(room_checkout)
 
-        try:
-            with open(file_store_checkout, "w", encoding="utf-8", newline="") as file:
-                json.dump(room_key_list, file, indent=2)
-        except FileNotFoundError as error:
-            raise HotelManagementException("Wrong file  or file path") from error
+        self.write_json_file(room_key_list, file_store_checkout)
 
         return True
