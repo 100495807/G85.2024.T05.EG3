@@ -62,7 +62,8 @@ class HotelManager:
         file_store = JSON_FILES_PATH + "store_reservation.json"
 
         #leo los datos del fichero si existe , y si no existe creo una lista vacia
-        data_list = self.load_json_file(file_store)             #se extrae el metodo para leer los archivos
+        # se extrae el metodo para leer los archivos
+        data_list = self.load_json_file(file_store)
 
         #compruebo que esta reserva no esta en la lista
         for item in data_list:
@@ -74,7 +75,8 @@ class HotelManager:
         data_list.append(my_reservation.__dict__)
 
         #escribo la lista en el fichero
-        self.write_json_file(data_list, file_store)                 #se extrae el metodo para escribir en los archivos
+        # se extrae el metodo para escribir en los archivos
+        self.write_json_file(data_list, file_store)
 
         return my_reservation.localizer
 
@@ -182,9 +184,10 @@ class HotelManager:
         room_key_list = self.load_json_file(file_store_checkout)
         for checkout in room_key_list:
             if checkout["room_key"] == room_key:
-                raise HotelManagementException("Guest is already out")
+                raise HotelManagementException("Guest is "
+                                               "already out")
 
-        room_checkout = {"room_key": room_key, "checkout_time": datetime.timestamp(datetime.utcnow())}
+        room_checkout = {"room_key":room_key,"checkout_time": datetime.timestamp(datetime.utcnow())}
 
         room_key_list.append(room_checkout)
 
