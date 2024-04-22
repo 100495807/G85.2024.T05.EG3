@@ -8,6 +8,8 @@ from uc3m_travel.attributes.attribute_credit_card import CreditCard
 from uc3m_travel.attributes.attribute_room_type import RoomType
 from uc3m_travel.attributes.attribute_name import Name
 from uc3m_travel.attributes.attribute_arrival_date import ArrivalDate
+from uc3m_travel.attributes.attribute_num_days import NumDays
+
 
 
 class HotelReservation:
@@ -30,7 +32,7 @@ class HotelReservation:
         self.__name_surname = Name(name_surname).value
         self.__phone_number = PhoneNumber(phone_number).value
         self.__room_type = RoomType(room_type).value
-        self.__num_days = self.validate_numdays(num_days)
+        self.__num_days = NumDays(num_days).value
         self.__localizer = hashlib.md5(str(self).encode()).hexdigest()
 
     def __str__(self):

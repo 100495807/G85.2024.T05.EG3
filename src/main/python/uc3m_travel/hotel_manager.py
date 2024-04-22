@@ -8,7 +8,7 @@ from uc3m_travel.hotel_management_config import JSON_FILES_PATH
 from freezegun import freeze_time
 from uc3m_travel.attributes.attribute_id_card import IdCard
 from uc3m_travel.attributes.attribute_localizer import Localizer
-
+from uc3m_travel.attributes.attribute_roomkey import RoomKey
 
 class HotelManager:
     """Class with all the methods for managing reservations and stays"""
@@ -155,7 +155,7 @@ class HotelManager:
 
     def guest_checkout(self, room_key: str) -> bool:
         """manages the checkout of a guest"""
-        HotelStay.validate_roomkey(room_key)
+        room_key = RoomKey(room_key).value
         #check thawt the roomkey is stored in the checkins file
         file_store = JSON_FILES_PATH + "store_check_in.json"
         room_key_list = self.load_json_file(file_store)

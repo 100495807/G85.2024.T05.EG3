@@ -67,12 +67,3 @@ class HotelStay:
     def departure(self, value):
         """returns the value of the departure date"""
         self.__departure = value
-
-    @staticmethod
-    def validate_roomkey(room_key):
-        """validates the roomkey format using a regex"""
-        result = r'^[a-fA-F0-9]{64}$'
-        my_registration = re.compile(result)
-        if not my_registration.fullmatch(room_key):
-            raise HotelManagementException("Invalid room key format")
-        return room_key
