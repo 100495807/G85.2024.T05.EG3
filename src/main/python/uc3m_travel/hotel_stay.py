@@ -1,16 +1,17 @@
-''' Class HotelStay (GE2.2) '''
+""" Class HotelStay (GE2.2) """
 from datetime import datetime
 import hashlib
 from uc3m_travel.hotel_management_exception import HotelManagementException
 import re
 
-class HotelStay():
+
+class HotelStay:
     """Class for representing hotel stays"""
     def __init__(self,
-                 idcard:str,
-                 localizer:str,
-                 numdays:int,
-                 roomtype:str):
+                 idcard: str,
+                 localizer: str,
+                 numdays: int,
+                 roomtype: str):
         """constructor for HotelStay objects"""
         self.__algorithm = "SHA-256"
         self.__type = roomtype
@@ -18,8 +19,8 @@ class HotelStay():
         self.__localizer = localizer
         justnow = datetime.utcnow()
         self.__arrival = datetime.timestamp(justnow)
-        #timestamp is represented in seconds.miliseconds
-        #to add the number of days we must express num_days in seconds
+        # timestamp is represented in seconds.miliseconds
+        # to add the number of days we must express num_days in seconds
         self.__departure = self.__arrival + (numdays * 24 * 60 * 60)
         self.__room_key = hashlib.sha256(self.__signature_string().encode()).hexdigest()
 
