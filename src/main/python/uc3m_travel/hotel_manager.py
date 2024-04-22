@@ -1,5 +1,4 @@
 """Module for the hotel manager"""
-import re
 import json
 from datetime import datetime
 from uc3m_travel.hotel_management_exception import HotelManagementException
@@ -7,6 +6,8 @@ from uc3m_travel.hotel_reservation import HotelReservation
 from uc3m_travel.hotel_stay import HotelStay
 from uc3m_travel.hotel_management_config import JSON_FILES_PATH
 from freezegun import freeze_time
+from uc3m_travel.attributes.attribute_id_card import IdCard
+from uc3m_travel.attributes.attribute_localizer import Localizer
 
 
 class HotelManager:
@@ -42,14 +43,6 @@ class HotelManager:
                          arrival_date: str,
                          num_days: int) -> str:
         """manges the hotel reservation: creates a reservation and saves it into a json file"""
-        id_card = HotelReservation.check_dni(id_card)
-        room_type = HotelReservation.validate_room_type(room_type)
-        name_surname = HotelReservation.validate_name(name_surname)
-        credit_card = HotelReservation.validatecreditcard(credit_card)
-        arrival_date = HotelReservation.validate_arrival_date(arrival_date)
-        num_days = HotelReservation.validate_numdays(num_days)
-        phone_number = HotelReservation.validate_phonenumber(phone_number)
-
         my_reservation = HotelReservation(id_card=id_card,
                                           credit_card_number=credit_card,
                                           name_surname=name_surname,
@@ -91,9 +84,8 @@ class HotelManager:
         except KeyError as error:
             raise HotelManagementException("Error - Invalid Key in JSON") from error
 
-        HotelReservation.check_dni(dni=my_id_card)
-        HotelReservation.validate_localizer(my_localizer)
-
+        my_id_card = IdCard(my_id_card).value
+        my_localizer = Localizer(my_localizer).value
 
         #buscar en almacen
         file_store = JSON_FILES_PATH + "store_reservation.json"
