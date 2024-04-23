@@ -19,6 +19,7 @@ class JsonStore():
         return hashlib.md5(str(self._data_list).encode()).hexdigest()
 
     def save_list_to_file(self):
+        """save list"""
         try:
             with open(self._file_name, "w", encoding="utf-8", newline="") as file:
                 json.dump(self._data_list, file, indent=2)
