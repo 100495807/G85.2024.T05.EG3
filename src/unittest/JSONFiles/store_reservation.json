@@ -2,8 +2,8 @@
   {
     "_HotelReservation__credit_card_number": "5105105105105100",
     "_HotelReservation__id_card": "12345678Z",
-    "_HotelReservation__arrival": "01/07/2024",
     "_HotelReservation__reservation_date": 1711112400.0,
+    "_HotelReservation__arrival": "01/07/2024",
     "_HotelReservation__name_surname": "JOSE LOPEZ",
     "_HotelReservation__phone_number": "+341234567",
     "_HotelReservation__room_type": "SINGLE",
@@ -13,8 +13,8 @@
   {
     "_HotelReservation__credit_card_number": "5105105105105100",
     "_HotelReservation__id_card": "05270358T",
-    "_HotelReservation__arrival": "01/07/2024",
     "_HotelReservation__reservation_date": 1711112400.0,
+    "_HotelReservation__arrival": "01/07/2024",
     "_HotelReservation__name_surname": "JOSE SANCHO",
     "_HotelReservation__phone_number": "+341234567",
     "_HotelReservation__room_type": "DOUBLE",
@@ -24,8 +24,8 @@
   {
     "_HotelReservation__credit_card_number": "5105105105105100",
     "_HotelReservation__id_card": "87654123L",
-    "_HotelReservation__arrival": "01/07/2024",
     "_HotelReservation__reservation_date": 1711112400.0,
+    "_HotelReservation__arrival": "01/07/2024",
     "_HotelReservation__name_surname": "Esmeralda Guillermina Pagatzaurtunduagoienengoazua",
     "_HotelReservation__phone_number": "+341234567",
     "_HotelReservation__room_type": "SUITE",
@@ -35,8 +35,8 @@
   {
     "_HotelReservation__credit_card_number": "5105105105105100",
     "_HotelReservation__id_card": "87654321X",
-    "_HotelReservation__arrival": "01/07/2024",
     "_HotelReservation__reservation_date": 1711112400.0,
+    "_HotelReservation__arrival": "01/07/2024",
     "_HotelReservation__name_surname": "Esmeralda Guillermina Pagatzaurtunduagoienengoaza",
     "_HotelReservation__phone_number": "+341234567",
     "_HotelReservation__room_type": "SUITE",

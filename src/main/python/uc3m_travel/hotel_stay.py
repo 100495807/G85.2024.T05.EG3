@@ -1,10 +1,6 @@
-""" Class HotelStay (GE2.2) """
 from datetime import datetime
 import hashlib
-from uc3m_travel.hotel_management_exception import HotelManagementException
-import re
-
-
+import json
 class HotelStay:
     """Class for representing hotel stays"""
     def __init__(self,
