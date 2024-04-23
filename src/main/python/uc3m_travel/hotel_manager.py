@@ -8,6 +8,10 @@ from uc3m_travel.attributes.attribute_id_card import IdCard
 from uc3m_travel.attributes.attribute_localizer import Localizer
 from uc3m_travel.attributes.attribute_roomkey import RoomKey
 from uc3m_travel.storage.json_store import JsonStore
+from uc3m_travel.storage.reservation_store import ReservationStore
+from uc3m_travel.storage.checkin_store import CheckInStore
+from uc3m_travel.storage.checkout_store import CheckOutStore
+from uc3m_travel.storage.arrival_store import ArrivalStore
 import json
 reservation_store = JsonStore()
 
@@ -34,19 +38,16 @@ class HotelManager:
                                           room_type=room_type,
                                           arrival=arrival_date,
                                           num_days=num_days)
-        reservation_store.save_reservation(my_reservation)
-
+        ReservationStore().add_item(my_reservation)
         return my_reservation.localizer
 
     def guest_arrival(self, file_input: str) -> str:
         """manages the arrival of a guest with a reservation"""
-        my_id_card, my_localizer = reservation_store.check_arrival(file_input)
-
+        my_id_card, my_localizer = ArrivalStore().check_arrival(file_input)
         my_id_card = IdCard(my_id_card).value
         my_localizer = Localizer(my_localizer).value
 
-        found, reservation_credit_card, reservation_date_arrival, reservation_date_timestamp, reservation_days, reservation_id_card, reservation_name, reservation_phone, reservation_room_type = reservation_store.check_reservation(
-            my_localizer)
+        found, reservation_credit_card, reservation_date_arrival, reservation_date_timestamp, reservation_days, reservation_id_card, reservation_name, reservation_phone, reservation_room_type = ReservationStore().check_reservation(my_localizer)
 
         if not found:
             raise HotelManagementException("Error: localizer not found")
@@ -77,7 +78,7 @@ class HotelManager:
                                roomtype=reservation_room_type)
 
         # Ahora lo guardo en el almacen nuevo de checkin
-        reservation_store.write_checkin(my_checkin.__dict__)
+        CheckInStore().add_item(my_checkin.__dict__)
 
         return my_checkin.room_key
 
@@ -85,12 +86,12 @@ class HotelManager:
         """manages the checkout of a guest"""
         room_key = RoomKey(room_key).value
         #check that the roomkey is stored in the checkins file
-        departure_date_timestamp = reservation_store.check_checkin(room_key)
+        departure_date_timestamp = CheckInStore().check_checkin(room_key)
 
         today = datetime.utcnow().date()
         if datetime.fromtimestamp(departure_date_timestamp).date() != today:
             raise HotelManagementException("Error: today is not the departure day")
 
-        reservation_store.write_checkout(room_key)
+        CheckOutStore().add_item(room_key)
 
         return True
