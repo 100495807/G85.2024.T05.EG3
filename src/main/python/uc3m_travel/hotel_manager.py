@@ -1,15 +1,12 @@
 """Module for the hotel manager"""
-import json
 from datetime import datetime
 from uc3m_travel.hotel_management_exception import HotelManagementException
 from uc3m_travel.hotel_reservation import HotelReservation
 from uc3m_travel.hotel_stay import HotelStay
-from uc3m_travel.hotel_management_config import JSON_FILES_PATH
 from freezegun import freeze_time
 from uc3m_travel.attributes.attribute_id_card import IdCard
 from uc3m_travel.attributes.attribute_localizer import Localizer
 from uc3m_travel.attributes.attribute_roomkey import RoomKey
-from uc3m_travel.storage.json_store import JsonStore
 from uc3m_travel.storage.reservation_store import ReservationStore
 from uc3m_travel.storage.checkin_store import CheckInStore
 from uc3m_travel.storage.checkout_store import CheckOutStore
