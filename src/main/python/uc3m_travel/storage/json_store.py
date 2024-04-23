@@ -1,8 +1,6 @@
 import hashlib
 import json
-from datetime import datetime
 from uc3m_travel.hotel_management_exception import HotelManagementException
-from uc3m_travel.hotel_management_config import JSON_FILES_PATH
 
 
 class JsonStore():
