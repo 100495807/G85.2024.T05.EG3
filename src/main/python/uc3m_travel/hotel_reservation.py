@@ -69,6 +69,18 @@ class HotelReservation:
         """Returns the md5 signature"""
         return self.__localizer
 
+    @property
+    def arrival(self):
+        return self.__arrival
+
+    @property
+    def num_days(self):
+        return self.__num_days
+
+    @property
+    def room_type(self):
+        return self.__room_type
+
     @staticmethod
     def validate_numdays(num_days):
         """validates the number of days"""
@@ -79,3 +91,4 @@ class HotelReservation:
         if (days < 1 or days > 10):
             raise HotelManagementException("Numdays should be in the range 1-10")
         return num_days
+
