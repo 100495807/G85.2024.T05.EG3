@@ -3,7 +3,6 @@ from datetime import datetime
 from uc3m_travel.hotel_management_exception import HotelManagementException
 from uc3m_travel.hotel_reservation import HotelReservation
 from uc3m_travel.hotel_stay import HotelStay
-from freezegun import freeze_time
 from uc3m_travel.attributes.attribute_id_card import IdCard
 from uc3m_travel.attributes.attribute_localizer import Localizer
 from uc3m_travel.attributes.attribute_roomkey import RoomKey
@@ -11,6 +10,7 @@ from uc3m_travel.storage.reservation_store import ReservationStore
 from uc3m_travel.storage.checkin_store import CheckInStore
 from uc3m_travel.storage.checkout_store import CheckOutStore
 from uc3m_travel.storage.arrival_store import ArrivalStore
+
 class HotelManager:
     """Class with all the methods for managing reservations and stays"""
 
@@ -42,41 +42,13 @@ class HotelManager:
 
     def guest_arrival(self, file_input: str) -> str:
         """manages the arrival of a guest with a reservation"""
-        my_id_card, my_localizer = ArrivalStore().check_arrival(file_input)
-        my_id_card = IdCard(my_id_card).value
-        my_localizer = Localizer(my_localizer).value
-        found, reservation_credit_card, reservation_date_arrival, reservation_date_timestamp, reservation_days, reservation_id_card, reservation_name, reservation_phone, reservation_room_type = ReservationStore().check_reservation(my_localizer)
-        if not found:
-            raise HotelManagementException("Error: localizer not found")
-        if my_id_card != reservation_id_card:
-            raise HotelManagementException("Error: Localizer is not correct for this IdCard")
-        # regenrar clave y ver si coincide
-        reservation_date = datetime.fromtimestamp(reservation_date_timestamp)
-
-        with freeze_time(reservation_date):
-            new_reservation = HotelReservation(credit_card_number=reservation_credit_card,
-                                               id_card=reservation_id_card,
-                                               num_days=reservation_days,
-                                               room_type=reservation_room_type,
-                                               arrival=reservation_date_arrival,
-                                               name_surname=reservation_name,
-                                               phone_number=reservation_phone)
-        if new_reservation.localizer != my_localizer:
-            raise HotelManagementException("Error: reservation has been manipulated")
-
-        # compruebo si hoy es la fecha de checkin
-        reservation_format = "%d/%m/%Y"
-        date_obj = datetime.strptime(reservation_date_arrival, reservation_format)
-        if date_obj.date() != datetime.date(datetime.utcnow()):
-            raise HotelManagementException("Error: today is not reservation date")
-
-        # genero la room key para ello llamo a Hotel Stay
-        my_checkin = HotelStay(idcard=my_id_card, numdays=int(reservation_days),
-                               localizer=my_localizer, roomtype=reservation_room_type)
+        my_checkin = HotelStay.create_guest_arrival_from_file(file_input)
 
         CheckInStore().add_item(my_checkin.__dict__)
 
         return my_checkin.room_key
+
+
 
     def guest_checkout(self, room_key: str) -> bool:
         """manages the checkout of a guest"""

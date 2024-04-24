@@ -1,6 +1,11 @@
-from datetime import datetime
 import hashlib
-import json
+from datetime import datetime
+from uc3m_travel.hotel_management_exception import HotelManagementException
+from uc3m_travel.attributes.attribute_id_card import IdCard
+from uc3m_travel.storage.arrival_store import ArrivalStore
+from uc3m_travel.attributes.attribute_localizer import Localizer
+from uc3m_travel.hotel_reservation import HotelReservation
+
 class HotelStay:
     """Class for representing hotel stays"""
     def __init__(self,
@@ -63,3 +68,19 @@ class HotelStay:
     def departure(self, value):
         """returns the value of the departure date"""
         self.__departure = value
+
+    @classmethod
+    def create_guest_arrival_from_file(cls, file_input):
+        my_id_card, my_localizer = ArrivalStore().check_arrival(file_input)
+        my_id_card = IdCard(my_id_card).value
+        my_localizer = Localizer(my_localizer).value
+        new_reservation = HotelReservation.create_reservation_from_arrival(my_id_card, my_localizer)
+        # compruebo si hoy es la fecha de checkin
+        reservation_format = "%d/%m/%Y"
+        date_obj = datetime.strptime(new_reservation.arrival, reservation_format)
+        if date_obj.date() != datetime.date(datetime.utcnow()):
+            raise HotelManagementException("Error: today is not reservation date")
+        # genero la room key para ello llamo a Hotel Stay
+        my_checkin = HotelStay(idcard=my_id_card, numdays=int(new_reservation.num_days),
+                               localizer=my_localizer, roomtype=new_reservation.room_type)
+        return my_checkin

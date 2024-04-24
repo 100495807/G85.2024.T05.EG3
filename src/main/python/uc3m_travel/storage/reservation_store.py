@@ -19,18 +19,8 @@ class ReservationStore(JsonStore):
         super().add_item(item.__dict__)
     def check_reservation(self, my_localizer):
         """check"""
-        found = False
         localizer_found = self.find_item("_HotelReservation__localizer", my_localizer)
         if localizer_found:
-            found = True
-            reservation_days = localizer_found["_HotelReservation__num_days"]
-            reservation_room_type = localizer_found["_HotelReservation__room_type"]
-            reservation_date_timestamp = localizer_found["_HotelReservation__reservation_date"]
-            reservation_credit_card = localizer_found["_HotelReservation__credit_card_number"]
-            reservation_date_arrival = localizer_found["_HotelReservation__arrival"]
-            reservation_name = localizer_found["_HotelReservation__name_surname"]
-            reservation_phone = localizer_found["_HotelReservation__phone_number"]
-            reservation_id_card = localizer_found["_HotelReservation__id_card"]
-            return found, reservation_credit_card, reservation_date_arrival, reservation_date_timestamp, reservation_days, reservation_id_card, reservation_name, reservation_phone, reservation_room_type
+            return localizer_found
         else:
-            return (found, None, None, None, None, None, None, None, None)
+            raise HotelManagementException("Error: localizer not found")

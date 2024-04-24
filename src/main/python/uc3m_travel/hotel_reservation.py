@@ -9,8 +9,9 @@ from uc3m_travel.attributes.attribute_room_type import RoomType
 from uc3m_travel.attributes.attribute_name import Name
 from uc3m_travel.attributes.attribute_arrival_date import ArrivalDate
 from uc3m_travel.attributes.attribute_num_days import NumDays
-
-
+from uc3m_travel.storage.reservation_store import ReservationStore
+from freezegun import freeze_time
+from uc3m_travel.attributes.attribute_localizer import Localizer
 
 class HotelReservation:
     """Class for representing hotel reservations"""
@@ -92,3 +93,27 @@ class HotelReservation:
             raise HotelManagementException("Numdays should be in the range 1-10")
         return num_days
 
+    @classmethod
+    def create_reservation_from_arrival(cls, my_id_card, my_localizer):
+        my_id_card = IdCard(my_id_card).value
+        my_localizer = Localizer(my_localizer).value
+        reservations_store = ReservationStore()
+        reservation = reservations_store.find_item(key="_HotelReservation__localizer", value=my_localizer)
+
+        # compruebo si esa reserva esta en el almacen
+        reservation = ReservationStore().check_reservation(my_localizer)
+        if my_id_card != reservation["_HotelReservation__id_card"]:
+            raise HotelManagementException("Error: Localizer is not correct for this IdCard")
+        # regenrar clave y ver si coincide
+        reservation_date = datetime.fromtimestamp(reservation["_HotelReservation__reservation_date"])
+        with freeze_time(reservation_date):
+            new_reservation = HotelReservation(credit_card_number=reservation["_HotelReservation__credit_card_number"],
+                                               id_card=reservation["_HotelReservation__id_card"],
+                                               num_days=reservation["_HotelReservation__num_days"],
+                                               room_type=reservation["_HotelReservation__room_type"],
+                                               arrival=reservation["_HotelReservation__arrival"],
+                                               name_surname=reservation["_HotelReservation__name_surname"],
+                                               phone_number=reservation["_HotelReservation__phone_number"])
+        if new_reservation.localizer != my_localizer:
+            raise HotelManagementException("Error: reservation has been manipulated")
+        return new_reservation
