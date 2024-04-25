@@ -1,9 +1,14 @@
+"""module que almacena el check in"""
+
+
 from uc3m_travel.storage.json_store import JsonStore
 from uc3m_travel.hotel_management_config import JSON_FILES_PATH
 from uc3m_travel.hotel_management_exception import HotelManagementException
 
 
+# pylint: disable=invalid-name, too-few-public-methods, useless-parent-delegation
 class CheckInStore:
+    """Esta clase almacena la info del check in """
     class __CheckInStore(JsonStore):
 
         _file_name = JSON_FILES_PATH + "store_check_in.json"
@@ -18,6 +23,7 @@ class CheckInStore:
             super().add_item(item)
 
         def check_checkin(self, room_key):
+            """Funcion que verifica el check in"""
             room_key_found = self.find_item("_HotelStay__room_key", room_key)
             if not room_key_found:
                 raise HotelManagementException("Error: room key not found")

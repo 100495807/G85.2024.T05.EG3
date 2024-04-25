@@ -1,3 +1,4 @@
+" Module for the test opf singleton"
 import unittest
 from uc3m_travel.hotel_manager import HotelManager
 from uc3m_travel.storage.arrival_store import ArrivalStore
@@ -7,8 +8,11 @@ from uc3m_travel.storage.reservation_store import ReservationStore
 from uc3m_travel.attributes.attribute_id_card import IdCard
 
 
+# pylint: disable=missing-class-docstring
 class MyTestcase(unittest.TestCase):
 
+    # pylint: disable=too-many-locals
+    # pylint: disable=missing-function-docstring
     def test_singleton_hotel_manager_tests(self):
         hotel_manager_1 = HotelManager()
         hotel_manager_2 = HotelManager()

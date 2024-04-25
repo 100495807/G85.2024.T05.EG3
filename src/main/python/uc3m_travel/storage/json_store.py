@@ -1,9 +1,12 @@
+"""Modulo base para json store"""
+
+
 import hashlib
 import json
 from uc3m_travel.hotel_management_exception import HotelManagementException
 
 
-class JsonStore():
+class JsonStore:
     """Clase JsonStore"""
     _file_name = ""
 
@@ -13,6 +16,7 @@ class JsonStore():
 
     @property
     def hash(self):
+        """property para el hash"""
         self.load_list_from_file()
         return hashlib.md5(str(self._data_list).encode()).hexdigest()
 
@@ -25,6 +29,7 @@ class JsonStore():
             raise HotelManagementException("Wrong file  or file path") from error
 
     def load_list_from_file(self, file_name=None):
+        """funcion para descargar y leer el archivo de llegada"""
         try:
             if file_name:
                 with open(file_name, "r", encoding="utf-8", newline="") as file:
@@ -33,8 +38,10 @@ class JsonStore():
             else:
                 with open(self._file_name, "r", encoding="utf-8", newline="") as file:
                     self._data_list = json.load(file)
+                    return self._data_list
         except FileNotFoundError:
             self._data_list = []
+            return self._data_list
         except json.JSONDecodeError as error:
             raise HotelManagementException("JSON Decode Error - Wrong JSON Format") from error
 

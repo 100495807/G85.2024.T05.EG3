@@ -10,15 +10,16 @@ from uc3m_travel import JSON_FILES_PATH
 from uc3m_travel import JSON_FILES_GUEST_ARRIVAL
 
 
+# pylint: disable=no-member
 class TestDeliverProduct(TestCase):
     """Class for testing guest_checkout"""
+
     @freeze_time("2023-03-08")
     def setUp(self):
         """first prepare the stores"""
         store_reservation = JSON_FILES_PATH + "store_reservation.json"
         store_checkin = JSON_FILES_PATH + "store_check_in.json"
         file_store_ckeck_out = JSON_FILES_PATH + "store_check_out.json"
-
 
         if os.path.isfile(store_reservation):
             os.remove(store_reservation)
@@ -45,8 +46,6 @@ class TestDeliverProduct(TestCase):
             self.assertEqual(localizer, "450a53be9b39944e62e7164ca5f5aadf")
         with freeze_time("2024/07/01 13:00:00"):
             my_manager.guest_arrival(file_test)
-
-
 
     @freeze_time("2024-07-02")
     def test_checkout_ok(self):
@@ -85,7 +84,6 @@ class TestDeliverProduct(TestCase):
         else:
             hash_original = ""
 
-
         with self.assertRaises(HotelManagementException) as context_manager:
             my_manager.guest_checkout(
                 "4f57880d4240350db9b276c84edaacc923a63906a408cc8da2b52c49213d3859")
@@ -99,6 +97,7 @@ class TestDeliverProduct(TestCase):
             hash_new = ""
 
         self.assertEqual(hash_new, hash_original)
+
     @freeze_time("2024-07-04")
     def test_guest_checkout_no_date(self):
         """path tracking_code is found , and date is not today"""
@@ -198,7 +197,7 @@ class TestDeliverProduct(TestCase):
         """for testing: store_check_in is empty"""
         #write a store_check_in empty
         file_store_check_in = JSON_FILES_PATH + "store_check_in.json"
-        data_list=[]
+        data_list = []
         with open(file_store_check_in, "w", encoding="utf-8", newline="") as file:
             json.dump(data_list, file, indent=2)
 

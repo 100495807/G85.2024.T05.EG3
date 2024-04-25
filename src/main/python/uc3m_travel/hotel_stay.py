@@ -10,8 +10,11 @@ from uc3m_travel.storage.arrival_store import ArrivalStore
 from uc3m_travel.attributes.attribute_localizer import Localizer
 from uc3m_travel.hotel_reservation import HotelReservation
 
+
+# pylint: disable=no-member
 class HotelStay:
     """Class for representing hotel stays"""
+
     def __init__(self,
                  idcard: str,
                  localizer: str,
@@ -75,6 +78,7 @@ class HotelStay:
 
     @classmethod
     def create_guest_arrival_from_file(cls, file_input):
+        """funcion para crear la llegada del cliente"""
         my_id_card, my_localizer = ArrivalStore().check_arrival(file_input)
         my_id_card = IdCard(my_id_card).value
         my_localizer = Localizer(my_localizer).value

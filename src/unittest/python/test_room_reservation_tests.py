@@ -12,6 +12,7 @@ from uc3m_travel import (JSON_FILES_PATH,
                          HotelManagementException)
 
 
+# pylint: disable=no-member
 class TestHotelReservation(TestCase):
     """Class for testing deliver_product"""
 

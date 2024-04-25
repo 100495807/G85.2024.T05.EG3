@@ -9,12 +9,11 @@ from uc3m_travel.storage.checkin_store import CheckInStore
 from uc3m_travel.storage.checkout_store import CheckOutStore
 
 
+# pylint: disable=too-few-public-methods, disable=invalid-name
+# pylint: disable=no-member, too-many-arguments
 class HotelManager:
     """Class with all the methods for managing reservations and stays"""
-
     class __HotelManager:
-
-        # pylint: disable=too-many-arguments
         @staticmethod
         def room_reservation(credit_card: str,
                              name_surname: str,

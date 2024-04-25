@@ -4,8 +4,10 @@ Este módulo es la base para el attribute room type
 
 from uc3m_travel.attributes.attribute import Attribute
 
+
 class RoomType(Attribute):
     """Definition of attribute Room Type"""
+
     # pylint: disable=super-init-not-called, too-few-public-methods
     def __init__(self, attr_value):
         """Definition of attribute Room Type init"""

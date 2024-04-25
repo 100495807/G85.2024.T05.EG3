@@ -6,7 +6,7 @@ import re
 from uc3m_travel.hotel_management_exception import HotelManagementException
 
 
-class Attribute():
+class Attribute:
     """Attribute class definition"""
     # pylint: disable=super-init-not-called, too-few-public-methods
     def __init__(self):

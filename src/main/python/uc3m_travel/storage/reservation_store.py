@@ -1,9 +1,12 @@
+"""Modulo para almacenar las reservas"""
 from uc3m_travel.storage.json_store import JsonStore
 from uc3m_travel.hotel_management_config import JSON_FILES_PATH
 from uc3m_travel.hotel_management_exception import HotelManagementException
 
 
+# pylint: disable=invalid-name, too-few-public-methods, useless-parent-delegation
 class ReservationStore:
+    """Clase para almacenar las reservas"""
 
     class __ReservationStore(JsonStore):
         _file_name = JSON_FILES_PATH + "store_reservation.json"
@@ -27,8 +30,7 @@ class ReservationStore:
             localizer_found = self.find_item("_HotelReservation__localizer", my_localizer)
             if localizer_found:
                 return localizer_found
-            else:
-                raise HotelManagementException("Error: localizer not found")
+            raise HotelManagementException("Error: localizer not found")
 
     __instance = None
 

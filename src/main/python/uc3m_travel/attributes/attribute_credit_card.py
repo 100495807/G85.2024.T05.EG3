@@ -5,8 +5,10 @@ Este módulo es la base para el attribute credit card
 from uc3m_travel.attributes.attribute import Attribute
 from uc3m_travel.hotel_management_exception import HotelManagementException
 
+
 class CreditCard(Attribute):
     """Definition of attribute Credit Card"""
+
     # pylint: disable=super-init-not-called, too-few-public-methods
     def __init__(self, attr_value):
         """Definition of attribute Credit Card init"""

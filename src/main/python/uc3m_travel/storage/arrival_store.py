@@ -1,13 +1,20 @@
+"""Module that store the arrival"""
+
+
 from uc3m_travel.storage.json_store import JsonStore
 from uc3m_travel.hotel_management_exception import HotelManagementException
 
 
+# pylint: disable=invalid-name, too-few-public-methods, useless-parent-delegation
+
 class ArrivalStore:
+    """Clase que almacena la info de la llegada"""
     class __ArrivalStore(JsonStore):
         def __init__(self):
             super().__init__()
 
         def check_arrival(self, file_input):
+            """funcion para verificar la llegada"""
             input_list = self.load_list_from_file(file_input)
             # comprobar valores del fichero
             try:
