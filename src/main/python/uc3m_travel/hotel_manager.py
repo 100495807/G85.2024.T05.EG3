@@ -8,6 +8,7 @@ from uc3m_travel.storage.reservation_store import ReservationStore
 from uc3m_travel.storage.checkin_store import CheckInStore
 from uc3m_travel.storage.checkout_store import CheckOutStore
 
+
 class HotelManager:
     """Class with all the methods for managing reservations and stays"""
 
