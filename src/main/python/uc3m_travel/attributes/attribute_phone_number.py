@@ -1,8 +1,12 @@
+"""
+Este módulo es la base para el attribute phone number
+"""
+
 from uc3m_travel.attributes.attribute import Attribute
+
 
 class PhoneNumber(Attribute):
     """Definition of attribute Phone Number"""
-
     # pylint: disable=super-init-not-called, too-few-public-methods
     def __init__(self, attr_value):
         """Definition of attribute PhoneNumber init"""

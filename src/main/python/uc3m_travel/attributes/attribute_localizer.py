@@ -1,8 +1,13 @@
+"""
+Este módulo es la base para el attribute localizer
+"""
+
 from uc3m_travel.attributes.attribute import Attribute
+
 
 class Localizer(Attribute):
     """Definition of attribute Localizer"""
-
+    # pylint: disable=super-init-not-called, too-few-public-methods
     def __init__(self, attr_value):
         """Definition of attribute Localizer init"""
         super().__init__()

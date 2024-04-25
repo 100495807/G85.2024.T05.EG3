@@ -1,9 +1,14 @@
+"""
+Este módulo es la base para el attribute num days
+"""
+
 from uc3m_travel.attributes.attribute import Attribute
 from uc3m_travel.hotel_management_exception import HotelManagementException
 
+
 class NumDays(Attribute):
     """Definition of attribute Number of Days"""
-
+    # pylint: disable=super-init-not-called, too-few-public-methods
     def __init__(self, attr_value):
         """Definition of attribute Number of Days init"""
         attr_value = str(attr_value)
@@ -15,8 +20,7 @@ class NumDays(Attribute):
         """Validate the number of days"""
         super()._validate(attr_value)  # Use the parent validation first
         attr_value = int(attr_value)
-        # Validar el rango
-        if not (1 <= attr_value <= 10):
+        if not 1 <= attr_value <= 10:
             raise HotelManagementException("Numdays should be in the range 1-10")
 
         # Return the validated number of days

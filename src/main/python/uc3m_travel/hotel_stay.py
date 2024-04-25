@@ -1,3 +1,7 @@
+"""
+Módulo de Hotel Stay
+"""
+
 import hashlib
 from datetime import datetime
 from uc3m_travel.hotel_management_exception import HotelManagementException

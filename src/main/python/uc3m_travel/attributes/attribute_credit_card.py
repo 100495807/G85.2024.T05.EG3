@@ -1,9 +1,13 @@
+"""
+Este módulo es la base para el attribute credit card
+"""
+
 from uc3m_travel.attributes.attribute import Attribute
 from uc3m_travel.hotel_management_exception import HotelManagementException
 
 class CreditCard(Attribute):
     """Definition of attribute Credit Card"""
-
+    # pylint: disable=super-init-not-called, too-few-public-methods
     def __init__(self, attr_value):
         """Definition of attribute Credit Card init"""
         self._validation_pattern = r"^[0-9]{16}$"
@@ -23,7 +27,7 @@ class CreditCard(Attribute):
                     digit -= 9
             checksum += digit
         # Check if the checksum is divisible by 10
-        if not checksum % 10 == 0:
+        if checksum % 10 != 0:
             raise HotelManagementException("Invalid credit card number (not luhn)")
 
         # Return the validated credit card number
