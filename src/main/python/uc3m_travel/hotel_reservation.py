@@ -106,9 +106,6 @@ class HotelReservation:
         """funcion para crear reservation"""
         my_id_card = IdCard(my_id_card).value
         my_localizer = Localizer(my_localizer).value
-        reservations_store = ReservationStore()
-        reservation = reservations_store.find_item(key="_HotelReservation__localizer",
-                                                   value=my_localizer)
 
         # compruebo si esa reserva esta en el almacen
         reservation = ReservationStore().check_reservation(my_localizer)
