@@ -3,13 +3,10 @@ from datetime import datetime
 from uc3m_travel.hotel_management_exception import HotelManagementException
 from uc3m_travel.hotel_reservation import HotelReservation
 from uc3m_travel.hotel_stay import HotelStay
-from uc3m_travel.attributes.attribute_id_card import IdCard
-from uc3m_travel.attributes.attribute_localizer import Localizer
 from uc3m_travel.attributes.attribute_roomkey import RoomKey
 from uc3m_travel.storage.reservation_store import ReservationStore
 from uc3m_travel.storage.checkin_store import CheckInStore
 from uc3m_travel.storage.checkout_store import CheckOutStore
-from uc3m_travel.storage.arrival_store import ArrivalStore
 
 class HotelManager:
     """Class with all the methods for managing reservations and stays"""
