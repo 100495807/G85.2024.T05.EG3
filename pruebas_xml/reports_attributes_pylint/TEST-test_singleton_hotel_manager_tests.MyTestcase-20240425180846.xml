@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="test_singleton_hotel_manager_tests.MyTestcase-20240425180846" tests="1" file="test_singleton_hotel_manager_tests.py" time="0.002" timestamp="2024-04-25T18:08:47" failures="0" errors="0" skipped="0">
+	<testcase classname="test_singleton_hotel_manager_tests.MyTestcase" name="test_singleton_hotel_manager_tests" time="0.002" timestamp="2024-04-25T18:08:47"/>
+</testsuite>
